@@ -1,3 +1,7 @@
+#
+# This code is licensed under the MIT license.  Please see LICENSE.txt
+#
+
 import sys
 
 if len(sys.argv) < 2:
