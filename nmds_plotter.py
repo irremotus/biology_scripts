@@ -34,7 +34,7 @@ sns.despine()
 
 
 if len(sys.argv) < 2:
-    print("Usage:  {prog} <data file> <map file> <title> <x axis> <y axis> <output file>".format(
+    print("Usage:  {prog} <data file> <map file> <title> <x axis> <y axis> <legend title> <output file>".format(
         prog=sys.argv[0]
         ))
     sys.exit(1)
@@ -45,7 +45,8 @@ map_filename = sys.argv[2]
 title = sys.argv[3]
 xaxis = sys.argv[4]
 yaxis = sys.argv[5]
-outname = sys.argv[6]
+legend = sys.argv[6]
+outname = sys.argv[7]
 
 df = pd.DataFrame()
 
@@ -66,17 +67,17 @@ with open(map_filename, "r") as f:
     for line in f.readlines():
         parts = line.split()
         mapping[parts[0]] = (parts[1], parts[3])
-df['x'] = x
-df['y'] = y
-df['z'] = [mapping[name][1] for name in names]
+df['x_axis_data'] = x
+df['y_axis_data'] = y
+df[legend] = [mapping[name][1] for name in names]
 
 sns.set_style("ticks")
 
-plot = sns.lmplot('x',
-           'y',
+plot = sns.lmplot('x_axis_data',
+           'y_axis_data',
            data=df,
            fit_reg=False,
-           hue="z",
+           hue=legend,
            scatter_kws={"marker": "D", "s": 100})
 
 plt.title(title)
